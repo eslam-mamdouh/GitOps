@@ -13,27 +13,6 @@ spec:
       labels:
         app: laravel-app
     spec:
-      initContainers:
-      - name: setup-permissions
-        image: laravel-app:latest
-        command: ['/bin/bash', '-c']
-        args:
-        - |
-          mkdir -p /var/www/storage/framework/views
-          mkdir -p /var/www/storage/framework/cache
-          mkdir -p /var/www/storage/framework/sessions
-          mkdir -p /var/www/bootstrap/cache
-          chown -R www-data:www-data /var/www/storage
-          chown -R www-data:www-data /var/www/bootstrap/cache
-          chmod -R 775 /var/www/storage
-          chmod -R 775 /var/www/bootstrap/cache
-        volumeMounts:
-        - name: laravel-storage
-          mountPath: /var/www/storage
-        - name: laravel-cache
-          mountPath: /var/www/bootstrap/cache
-        - name: laravel-views
-          mountPath: /var/www/storage/framework/views
       containers:
       - name: laravel-app
         image: laravel-app:latest
@@ -45,13 +24,23 @@ spec:
             name: laravel-config
         - secretRef:
             name: laravel-secret
+        command: ['/bin/bash', '-c']
+        args:
+        - |
+          mkdir -p /var/www/storage/framework/views
+          mkdir -p /var/www/storage/framework/cache
+          mkdir -p /var/www/storage/framework/sessions
+          mkdir -p /var/www/bootstrap/cache
+          chown -R www-data:www-data /var/www/storage
+          chown -R www-data:www-data /var/www/bootstrap/cache
+          chmod -R 775 /var/www/storage
+          chmod -R 775 /var/www/bootstrap/cache
+          /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
         volumeMounts:
         - name: laravel-storage
           mountPath: /var/www/storage
         - name: laravel-cache
           mountPath: /var/www/bootstrap/cache
-        - name: laravel-views
-          mountPath: /var/www/storage/framework/views
       volumes:
       - name: laravel-storage
         persistentVolumeClaim:
@@ -59,8 +48,6 @@ spec:
       - name: laravel-cache
         persistentVolumeClaim:
           claimName: laravel-cache-pvc
-      - name: laravel-views
-        emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
@@ -97,4 +84,4 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 1Gi
+      storage: 1Gi 
