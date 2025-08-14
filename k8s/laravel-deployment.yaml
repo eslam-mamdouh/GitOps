@@ -37,7 +37,7 @@ spec:
           mountPath: /var/www/storage/framework/views
       containers:
       - name: laravel-app
-        image: laravel-app:latest
+        image: laravel-app:v2
         imagePullPolicy: Never
         ports:
         - containerPort: 80
