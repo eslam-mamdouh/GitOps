@@ -36,6 +36,7 @@
                     <h1 class="text-4xl font-bold text-gray-900 dark:text-white">Website Statistics Dashboard</h1>
                     <p class="mt-2 text-lg text-gray-600 dark:text-gray-300">Get real-time insights about your website visitors and activity.</p>
                 </div>
+                <br>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
                     <!-- Visitors Card -->
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center">
@@ -44,6 +45,8 @@
                         </div>
                         <div class="text-lg text-gray-700 dark:text-gray-200">Total Visitors</div>
                     </div>
+                <br>
+
                     <!-- Active Users Card -->
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center">
                         <div class="text-5xl font-bold text-blue-500 mb-2">
@@ -51,6 +54,8 @@
                         </div>
                         <div class="text-lg text-gray-700 dark:text-gray-200">Active Users Now</div>
                     </div>
+                <br>
+
                     <!-- Page Views Card -->
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col items-center">
                         <div class="text-5xl font-bold text-green-500 mb-2">
@@ -58,6 +63,8 @@
                         </div>
                         <div class="text-lg text-gray-700 dark:text-gray-200">Page Views</div>
                     </div>
+                <br>
+
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Chart Placeholder -->
@@ -68,6 +75,8 @@
                             <span>[Chart Placeholder]</span>
                         </div>
                     </div>
+                <br>
+
                     <!-- Insights Placeholder -->
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
                         <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Insights</h2>
@@ -78,8 +87,12 @@
                             <li>Bounce rate: <span class="font-semibold">42%</span></li>
                         </ul>
                     </div>
+                <br>
+
                 </div>
             </div>
+
+                <br>
 
                 <div class="flex justify-center mt-16 px-0 sm:items-center sm:justify-between">
                     <div class="text-center text-sm sm:text-left">
