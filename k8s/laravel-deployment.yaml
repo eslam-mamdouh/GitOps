@@ -16,6 +16,7 @@ spec:
       initContainers:
       - name: setup-permissions
         image: laravel-app:latest
+        imagePullPolicy: Never
         command: ['/bin/bash', '-c']
         args:
         - |
