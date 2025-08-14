@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel-app
+  namespace: laravel-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: laravel-app
+  template:
+    metadata:
+      labels:
+        app: laravel-app
+    spec:
+      containers:
+      - name: laravel-app
+        image: laravel-app:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+        envFrom:
+        - configMapRef:
+            name: laravel-config
+        - secretRef:
+            name: laravel-secret
+        volumeMounts:
+        - name: laravel-storage
+          mountPath: /var/www/storage
+        - name: laravel-cache
+          mountPath: /var/www/bootstrap/cache
+      volumes:
+      - name: laravel-storage
+        persistentVolumeClaim:
+          claimName: laravel-storage-pvc
+      - name: laravel-cache
+        persistentVolumeClaim:
+          claimName: laravel-cache-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: laravel-app
+  namespace: laravel-app
+spec:
+  selector:
+    app: laravel-app
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: laravel-storage-pvc
+  namespace: laravel-app
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: laravel-cache-pvc
+  namespace: laravel-app
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi 

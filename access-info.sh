@@ -1,0 +1,71 @@
+#!/bin/bash
+
+echo "🎉 Kubernetes GitOps Setup Complete!"
+echo "===================================="
+echo ""
+
+# Get ArgoCD password
+ARGOCD_PASSWORD=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
+
+# Get Minikube IP
+MINIKUBE_IP=$(minikube ip)
+
+echo "🌐 Access URLs:"
+echo "==============="
+echo ""
+echo "1. Minikube Dashboard (Monitoring):"
+echo "   URL: http://127.0.0.1:40509/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/"
+echo "   Command: minikube dashboard"
+echo ""
+echo "2. ArgoCD UI (GitOps Management):"
+echo "   URL: https://localhost:8080"
+echo "   Username: admin"
+echo "   Password: $ARGOCD_PASSWORD"
+echo "   Command: kubectl port-forward svc/argocd-server -n argocd 8080:443"
+echo ""
+echo "3. Laravel Application:"
+echo "   URL: http://laravel-app.local"
+echo "   Add to /etc/hosts: $MINIKUBE_IP laravel-app.local"
+echo ""
+echo "📊 Current Status:"
+echo "=================="
+echo ""
+echo "Laravel Pods:"
+kubectl get pods -n laravel-app -l app=laravel-app
+echo ""
+echo "MySQL Pod:"
+kubectl get pods -n laravel-app -l app=mysql
+echo ""
+echo "Services:"
+kubectl get svc -n laravel-app
+echo ""
+echo "Ingress:"
+kubectl get ingress -n laravel-app
+echo ""
+echo "🔧 Quick Commands:"
+echo "=================="
+echo ""
+echo "# Start Minikube Dashboard"
+echo "minikube dashboard"
+echo ""
+echo "# Start ArgoCD Port Forwarding"
+echo "kubectl port-forward svc/argocd-server -n argocd 8080:443"
+echo ""
+echo "# Add Laravel app to hosts file"
+echo "echo '$MINIKUBE_IP laravel-app.local' | sudo tee -a /etc/hosts"
+echo ""
+echo "# Check Laravel app logs"
+echo "kubectl logs -n laravel-app deployment/laravel-app"
+echo ""
+echo "# Check MySQL logs"
+echo "kubectl logs -n laravel-app deployment/mysql"
+echo ""
+echo "🎯 Testing Steps:"
+echo "================"
+echo ""
+echo "1. Open Minikube Dashboard to monitor resources"
+echo "2. Open ArgoCD UI to manage GitOps deployments"
+echo "3. Access Laravel app at http://laravel-app.local"
+echo "4. Test GitOps workflow by making changes to your code"
+echo ""
+echo "✅ Setup Complete! All components are running successfully."
